@@ -261,28 +261,28 @@ def delete_game_af(game_id: int) -> None:
 
 
 # ==================== Adjust Games ====================
+# Adjust games and events are hardcoded in src.data.adj_data to match the
+# reference bot exactly. The DB-reading helpers below are kept for the admin
+# add/delete handlers (admin_handler.py) but the list/event getters now read
+# from the hardcoded data.
+
+from src.data import adj_data as _adj_data
+
 
 def get_all_games_adj() -> List[Dict]:
-    return execute(
-        "SELECT id, name, display_name, app_token, emoji FROM games_adj ORDER BY display_name",
-        fetch="all",
-    ) or []
+    return _adj_data.get_all_games_adj()
 
 
 def get_game_adj_by_id(game_id: int) -> Optional[Dict]:
-    return execute(
-        "SELECT id, name, display_name, app_token, emoji FROM games_adj WHERE id = %s",
-        (game_id,),
-        fetch="one",
-    )
+    return _adj_data.get_game_adj_by_id(game_id)
 
 
 def get_adj_events(game_id: int) -> List[Dict]:
-    return execute(
-        "SELECT id, event_name, event_token, display_name, level_value FROM events_adj WHERE game_id = %s ORDER BY display_name",
-        (game_id,),
-        fetch="all",
-    ) or []
+    return _adj_data.get_adj_events(game_id)
+
+
+def search_adj_games(text: str) -> List[Dict]:
+    return _adj_data.search_adj_games(text)
 
 
 def add_game_adj(name: str, display_name: str, app_token: str, emoji: str) -> None:
