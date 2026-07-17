@@ -285,6 +285,10 @@ def search_adj_games(text: str) -> List[Dict]:
     return _adj_data.search_adj_games(text)
 
 
+def get_adj_event_by_id(event_id: int) -> Optional[Dict]:
+    return _adj_data.get_adj_event_by_id(event_id)
+
+
 def add_game_adj(name: str, display_name: str, app_token: str, emoji: str) -> None:
     execute(
         "INSERT INTO games_adj (name, display_name, app_token, emoji) VALUES (%s, %s, %s, %s)",
